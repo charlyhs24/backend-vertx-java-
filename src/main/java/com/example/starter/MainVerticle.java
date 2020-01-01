@@ -58,6 +58,11 @@ public class MainVerticle extends AbstractVerticle {
 		      .putHeader("content-type", "application/json; charset=utf-8")
 		      .end(Json.encodePrettily(whisky));
   }
+  private void getDateByDate(RoutingContext routingContext) {
+	  routingContext.response()
+	      .putHeader("content-type", "application/json; charset=utf-8")
+	      .end(Json.encodePrettily(products.values()));
+  }
   @Override
   public void start(Future<Void> fut) {
 	  
@@ -90,6 +95,7 @@ public class MainVerticle extends AbstractVerticle {
 	  router.get("/api/whiskies").handler(this::getAll);
 	  router.route("/api/whiskies*").handler(BodyHandler.create());
 	  router.post("/api/whiskies").handler(this::addOne);
+	  router.post("/api/getwhiskiesByDate").handler(this::getDateByDate);
 	  vertx.createHttpServer()
 	  .requestHandler(router::accept)
 	  .listen(
