@@ -19,14 +19,28 @@ import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 
 public class MainVerticle extends AbstractVerticle {
-	
+  public static final String ANSI_GREEN  = "\u001B[32m";
+  public static final String ANSI_RESET = "\u001B[0m";
   private Map<Integer, Whisky> products = new LinkedHashMap<>();
   
   private void createSomeData() {
 	  Whisky bowmore = new Whisky("Bowmore 15 Years Laimrig", "Scotland, Islay");
 	  products.put(bowmore.getId(), bowmore);
+
 	  Whisky talisker = new Whisky("Talisker 57° North", "Scotland, Island");
 	  products.put(talisker.getId(), talisker);
+
+	  Whisky buchan = new Whisky("BUCHANAN’S SCOTCH WHISKY", "Latin America");
+	  products.put(buchan.getId(), buchan);
+
+	  Whisky rich = new Whisky("RICH AND RARE CANADIAN WHISKY", "Canadian");
+	  products.put(rich.getId(), rich);
+
+	  Whisky kesler = new Whisky("KESSLER AMERICAN WHISKEY", "American ");
+	  products.put(kesler.getId(), kesler);
+
+	  Whisky black = new Whisky("BLACK VELVET CANADIAN WHISKY", "Canada ");
+	  products.put(black.getId(), black);
   }
   
   private void getAll(RoutingContext routingContext) {
@@ -82,7 +96,9 @@ public class MainVerticle extends AbstractVerticle {
 			  config().getInteger("http.port", 8080),
 			  result -> {
 				  if(result.succeeded()) {
-					   fut.complete();
+					  System.out.println(ANSI_GREEN + "API running on port :8080..."+ ANSI_RESET);
+					  fut.complete();
+					   
 				  }else {
 					  fut.fail(result.cause());
 				  }
